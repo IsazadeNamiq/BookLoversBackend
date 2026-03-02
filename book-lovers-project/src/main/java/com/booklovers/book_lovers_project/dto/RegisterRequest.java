@@ -18,4 +18,30 @@ public class RegisterRequest {
 	@NotBlank(message = "Şifrə boş qoyula bilməz")
 	@Size(min = 6, max = 100)
 	private String password;
+
+	// --- Manual Getter və Setter metodları ---
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return this.password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

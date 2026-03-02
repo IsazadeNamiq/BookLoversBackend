@@ -8,11 +8,11 @@ import com.booklovers.book_lovers_project.dto.BookDto;
 public interface BookService {
 	BookDto create(BookDto bookDto);
 
-	BookDto update(int id, BookDto bookDto);
+	BookDto update(Integer id, BookDto bookDto);
 
-	BookDto getById(int id);
+	BookDto getById(Integer id);
 
-	void delete(int id);
+	void delete(Integer id);
 
 	Page<BookDto> getAll(String search, Pageable pageable);
 }
