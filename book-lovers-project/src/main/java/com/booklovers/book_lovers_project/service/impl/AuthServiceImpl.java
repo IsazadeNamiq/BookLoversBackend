@@ -8,13 +8,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.booklovers.book_lovers_project.dto.AuthRequest;
-import com.booklovers.book_lovers_project.dto.AuthResponse;
-import com.booklovers.book_lovers_project.dto.RegisterRequest;
 import com.booklovers.book_lovers_project.entity.RoleEntity;
 import com.booklovers.book_lovers_project.entity.UserEntity;
 import com.booklovers.book_lovers_project.repository.RoleRepository;
 import com.booklovers.book_lovers_project.repository.UserRepository;
+import com.booklovers.book_lovers_project.request.AuthRequest;
+import com.booklovers.book_lovers_project.request.RegisterRequest;
+import com.booklovers.book_lovers_project.response.AuthResponse;
 import com.booklovers.book_lovers_project.security.JwtUtil;
 import com.booklovers.book_lovers_project.service.AuthService;
 

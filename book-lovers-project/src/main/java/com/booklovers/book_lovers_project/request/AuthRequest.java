@@ -1,4 +1,4 @@
-package com.booklovers.book_lovers_project.dto;
+package com.booklovers.book_lovers_project.request;
 
 import lombok.Data;
 

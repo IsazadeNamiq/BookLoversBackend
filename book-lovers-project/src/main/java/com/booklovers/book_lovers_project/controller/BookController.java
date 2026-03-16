@@ -1,8 +1,9 @@
 package com.booklovers.book_lovers_project.controller;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import com.booklovers.book_lovers_project.dto.BookDto;
+import com.booklovers.book_lovers_project.request.BookRequest;
+import com.booklovers.book_lovers_project.response.BookResponse;
 import com.booklovers.book_lovers_project.service.BookService;
 
 import jakarta.validation.Valid;
@@ -35,22 +38,22 @@ public class BookController {
 
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<BookDto> createBook(@Valid @RequestBody BookDto bookDto) {
-		BookDto created = bookService.create(bookDto);
-		return ResponseEntity.status(201).body(created);
+	public ResponseEntity<BookResponse> create(@Valid @RequestBody BookRequest request,
+			UriComponentsBuilder uriBuilder) {
+		BookResponse created = bookService.create(request);
+		URI location = uriBuilder.path("/api/books/{id}").buildAndExpand(created.getId()).toUri();
+		return ResponseEntity.created(location).body(created);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<BookDto> getBook(@PathVariable Integer id) {
-		BookDto dto = bookService.getById(id);
-		return ResponseEntity.ok(dto);
+	public ResponseEntity<BookResponse> getById(@PathVariable Integer id) {
+		return ResponseEntity.ok(bookService.getById(id));
 	}
 
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
-	public ResponseEntity<BookDto> updateBook(@PathVariable Integer id, @Valid @RequestBody BookDto bookDto) {
-		BookDto updated = bookService.update(id, bookDto);
-		return ResponseEntity.ok(updated);
+	public ResponseEntity<BookResponse> update(@PathVariable Integer id, @Valid @RequestBody BookRequest request) {
+		return ResponseEntity.ok(bookService.update(id, request));
 	}
 
 	@DeleteMapping("/{id}")
@@ -60,15 +63,20 @@ public class BookController {
 		return ResponseEntity.noContent().build();
 	}
 
+//	@GetMapping
+//	public ResponseEntity<Page<BookRequest>> listBooks(@RequestParam(value = "search", required = false) String search,
+//			@RequestParam(value = "page", defaultValue = "0") Integer page,
+//			@RequestParam(value = "size", defaultValue = "10") Integer size,
+//			@RequestParam(value = "sort", defaultValue = "id,desc") String sort) {
+//		Sort springSort = parseSort(sort);
+//		Pageable pageable = PageRequest.of(page, size, springSort);
+//		Page<BookResponse> result = bookService.getAll(search, pageable);
+//		return ResponseEntity.ok(result);
+//	}
+
 	@GetMapping
-	public ResponseEntity<Page<BookDto>> listBooks(@RequestParam(value = "search", required = false) String search,
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			@RequestParam(value = "size", defaultValue = "10") Integer size,
-			@RequestParam(value = "sort", defaultValue = "id,desc") String sort) {
-		Sort springSort = parseSort(sort);
-		Pageable pageable = PageRequest.of(page, size, springSort);
-		Page<BookDto> result = bookService.getAll(search, pageable);
-		return ResponseEntity.ok(result);
+	public ResponseEntity<Page<BookResponse>> list(@RequestParam(required = false) String search, Pageable pageable) {
+		return ResponseEntity.ok(bookService.getAll(search, pageable));
 	}
 
 	private Sort parseSort(String sort) {

@@ -1,4 +1,4 @@
-package com.booklovers.book_lovers_project.dto;
+package com.booklovers.book_lovers_project.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

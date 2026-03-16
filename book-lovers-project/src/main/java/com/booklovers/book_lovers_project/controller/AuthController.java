@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.booklovers.book_lovers_project.dto.AuthRequest;
-import com.booklovers.book_lovers_project.dto.AuthResponse;
-import com.booklovers.book_lovers_project.dto.RegisterRequest;
+import com.booklovers.book_lovers_project.request.AuthRequest;
+import com.booklovers.book_lovers_project.request.RegisterRequest;
+import com.booklovers.book_lovers_project.response.AuthResponse;
 import com.booklovers.book_lovers_project.service.AuthService;
 
 import jakarta.validation.Valid;

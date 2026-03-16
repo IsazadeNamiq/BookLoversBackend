@@ -1,4 +1,4 @@
-package com.booklovers.book_lovers_project.dto;
+package com.booklovers.book_lovers_project.request;
 
 import java.time.LocalDate;
 
@@ -6,19 +6,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
-@AllArgsConstructor
-public class BookDto {
-	private Integer id;
+public class BookRequest {
 
 	@NotBlank(message = "Başlıq boş ola bilməz")
 	@Size(max = 255)
@@ -33,25 +25,19 @@ public class BookDto {
 	@Size(min = 10, max = 13)
 	private String isbn;
 
-	@Min(value = 0, message = "Səhifələr mənfi ola bilməz")
+	@Min(value = 0, message = "Səhifə sayı mənfi ola bilməz")
 	private Integer pages;
 
 	@Min(value = 0, message = "Qiymət mənfi ola bilməz")
 	private Double price;
 
-	@Past(message = "tarix keçmiş zamanda olmalıdır")
+//	@Past(message = "tarix keçmiş zamanda olmalıdır")
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate publishedDate;
 
 	private String coverImagePath;
 
-	public Integer getId() {
-		return this.id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	// --- Manual getters & setters ---
 
 	public String getTitle() {
 		return this.title;

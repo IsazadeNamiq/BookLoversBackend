@@ -3,16 +3,17 @@ package com.booklovers.book_lovers_project.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.booklovers.book_lovers_project.dto.BookDto;
+import com.booklovers.book_lovers_project.request.BookRequest;
+import com.booklovers.book_lovers_project.response.BookResponse;
 
 public interface BookService {
-	BookDto create(BookDto bookDto);
+	BookResponse create(BookRequest bookRequest);
 
-	BookDto update(Integer id, BookDto bookDto);
+	BookResponse update(int id, BookRequest bookRequest);
 
-	BookDto getById(Integer id);
+	BookResponse getById(int id);
 
-	void delete(Integer id);
+	void delete(int id);
 
-	Page<BookDto> getAll(String search, Pageable pageable);
+	Page<BookResponse> getAll(String search, Pageable pageable);
 }
