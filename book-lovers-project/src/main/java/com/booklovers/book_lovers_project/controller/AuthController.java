@@ -1,6 +1,9 @@
 package com.booklovers.book_lovers_project.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,14 +29,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
+	public ResponseEntity<Map<String, String>> register(@Valid @RequestBody RegisterRequest request) {
 		authService.register(request);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "İstifadəçi qeydiyyatdan keçdi"));
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-		AuthResponse response = authService.login(request);
-		return ResponseEntity.ok(response);
+	public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest request) {
+		return ResponseEntity.ok(authService.login(request));
 	}
 }

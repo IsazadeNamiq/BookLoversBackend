@@ -23,10 +23,13 @@ import com.booklovers.book_lovers_project.request.BookRequest;
 import com.booklovers.book_lovers_project.response.BookResponse;
 import com.booklovers.book_lovers_project.service.BookService;
 
+import io.swagger.v3.oas.annotations.Operation;
+//import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/books")
+//@SecurityRequirement(name = "bearerAuth")
 public class BookController {
 
 	private final BookService bookService;
@@ -36,6 +39,7 @@ public class BookController {
 		this.bookService = bookService;
 	}
 
+	@Operation(summary = "Kitab əlavə et")
 	@PostMapping
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BookResponse> create(@Valid @RequestBody BookRequest request,
@@ -45,17 +49,20 @@ public class BookController {
 		return ResponseEntity.created(location).body(created);
 	}
 
+	@Operation(summary = "Kitabı id-yə görə gətir")
 	@GetMapping("/{id}")
 	public ResponseEntity<BookResponse> getById(@PathVariable Integer id) {
 		return ResponseEntity.ok(bookService.getById(id));
 	}
 
+	@Operation(summary = "Kitabı yenilə")
 	@PutMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<BookResponse> update(@PathVariable Integer id, @Valid @RequestBody BookRequest request) {
 		return ResponseEntity.ok(bookService.update(id, request));
 	}
 
+	@Operation(summary = "Kitabı sil")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Void> deleteBook(@PathVariable Integer id) {
@@ -74,6 +81,7 @@ public class BookController {
 //		return ResponseEntity.ok(result);
 //	}
 
+	@Operation(summary = "Kitabları axtarış və səhifələmə ilə listələmə")
 	@GetMapping
 	public ResponseEntity<Page<BookResponse>> list(@RequestParam(required = false) String search, Pageable pageable) {
 		return ResponseEntity.ok(bookService.getAll(search, pageable));
