@@ -1,6 +1,7 @@
 package com.booklovers.book_lovers_project.exception;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -54,5 +55,21 @@ public class GlobalExceptionHandler {
 		ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(),
 				req.getRequestURI(), null);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+	}
+
+	@ExceptionHandler(FavoriteAlreadyExistsException.class)
+	public ResponseEntity<?> handleFavoriteAlreadyExists(FavoriteAlreadyExistsException ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.BAD_REQUEST.value());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+	}
+
+	@ExceptionHandler(FavoriteNotFoundException.class)
+	public ResponseEntity<?> handleFavoriteNotFound(FavoriteNotFoundException ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.NOT_FOUND.value());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
 	}
 }
