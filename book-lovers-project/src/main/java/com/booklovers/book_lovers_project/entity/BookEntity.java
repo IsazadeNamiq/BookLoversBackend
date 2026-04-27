@@ -32,6 +32,9 @@ public class BookEntity {
 	@Column(length = 2000)
 	private String description;
 
+	@Column(nullable = false)
+	private Integer availableCopies = 1;
+
 	private Double price;
 
 	private String isbn;
@@ -110,5 +113,13 @@ public class BookEntity {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Integer getAvailableCopies() {
+		return this.availableCopies;
+	}
+
+	public void setAvailableCopies(Integer availableCopies) {
+		this.availableCopies = availableCopies;
 	}
 }
