@@ -31,6 +31,8 @@ public class BookRequest {
 	@Min(value = 0, message = "Qiymət mənfi ola bilməz")
 	private Double price;
 
+	private Integer categoryId;
+
 //	@Past(message = "tarix keçmiş zamanda olmalıdır")
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate publishedDate;
@@ -101,5 +103,13 @@ public class BookRequest {
 
 	public void setCoverImagePath(String coverImagePath) {
 		this.coverImagePath = coverImagePath;
+	}
+
+	public Integer getCategoryId() {
+		return this.categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 }

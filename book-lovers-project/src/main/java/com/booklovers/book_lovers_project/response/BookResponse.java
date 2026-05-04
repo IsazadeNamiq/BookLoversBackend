@@ -16,6 +16,8 @@ public class BookResponse {
 	private Double price;
 	private LocalDate publishedDate;
 	private String coverImagePath;
+	private Integer categoryId;
+	private String categoryName;
 
 	// --- Manual getters & setters ---
 
@@ -89,5 +91,21 @@ public class BookResponse {
 
 	public void setCoverImagePath(String coverImagePath) {
 		this.coverImagePath = coverImagePath;
+	}
+
+	public Integer getCategoryId() {
+		return this.categoryId;
+	}
+
+	public void setCategoryId(Integer categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public String getCategoryName() {
+		return this.categoryName;
+	}
+
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 }

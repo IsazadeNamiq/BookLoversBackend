@@ -8,4 +8,11 @@ import com.booklovers.book_lovers_project.entity.BookEntity;
 
 public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 	Page<BookEntity> findByTitleOrAuthor(String title, String author, Pageable pageable);
+
+	Page<BookEntity> findByCategory_Id(Integer categoryId, Pageable pageable);
+
+	Page<BookEntity> findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(String title, String author,
+			Pageable pageable);
+
+	long countByCategory_Id(Integer categoryId);
 }
