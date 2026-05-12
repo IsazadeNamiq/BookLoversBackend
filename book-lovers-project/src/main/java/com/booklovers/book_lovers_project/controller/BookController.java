@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.booklovers.book_lovers_project.request.BookRequest;
@@ -97,5 +98,12 @@ public class BookController {
 		} catch (Exception e) {
 			return Sort.by(Sort.Direction.DESC, "id");
 		}
+	}
+
+	@PostMapping("/{id}/cover")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<?> uploadCover(@PathVariable Integer id, @RequestParam("file") MultipartFile file) {
+		String path = bookService.updateCover(id, file);
+		return ResponseEntity.ok(java.util.Map.of("message", "Cover uğurla yükləndi", "coverImagePath", path));
 	}
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.booklovers.book_lovers_project.entity.BookEntity;
 import com.booklovers.book_lovers_project.exception.ResourceNotFoundException;
@@ -12,17 +13,21 @@ import com.booklovers.book_lovers_project.repository.BookRepository;
 import com.booklovers.book_lovers_project.request.BookRequest;
 import com.booklovers.book_lovers_project.response.BookResponse;
 import com.booklovers.book_lovers_project.service.BookService;
+import com.booklovers.book_lovers_project.service.FileStorageService;
 
 @Service
 public class BookServiceImpl implements BookService {
 
 	private final BookRepository bookRepository;
 	private final ModelMapper modelMapper;
+	private final FileStorageService fileStorageService;
 
 	@Autowired
-	public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper) {
+	public BookServiceImpl(BookRepository bookRepository, ModelMapper modelMapper,
+			FileStorageService fileStorageService) {
 		this.bookRepository = bookRepository;
 		this.modelMapper = modelMapper;
+		this.fileStorageService = fileStorageService;
 	}
 
 	@Override
@@ -74,4 +79,23 @@ public class BookServiceImpl implements BookService {
 		}
 		return page.map(entity -> modelMapper.map(entity, BookResponse.class));
 	}
+
+	@Override
+	public String updateCover(Integer id, MultipartFile file) {
+		BookEntity book = bookRepository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Book not found with id: " + id));
+
+		String oldPath = book.getCoverImagePath();
+		String newPath = fileStorageService.saveBookCover(file);
+
+		book.setCoverImagePath(newPath);
+		bookRepository.save(book);
+
+		if (oldPath != null && !oldPath.isBlank()) {
+			fileStorageService.deleteFile(oldPath);
+		}
+
+		return newPath;
+	}
+
 }
