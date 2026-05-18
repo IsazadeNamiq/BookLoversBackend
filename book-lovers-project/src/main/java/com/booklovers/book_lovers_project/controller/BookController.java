@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.booklovers.book_lovers_project.request.BookFilterRequest;
 import com.booklovers.book_lovers_project.request.BookRequest;
 import com.booklovers.book_lovers_project.response.BookResponse;
 import com.booklovers.book_lovers_project.service.BookService;
@@ -105,5 +106,10 @@ public class BookController {
 	public ResponseEntity<?> uploadCover(@PathVariable Integer id, @RequestParam("file") MultipartFile file) {
 		String path = bookService.updateCover(id, file);
 		return ResponseEntity.ok(java.util.Map.of("message", "Cover uğurla yükləndi", "coverImagePath", path));
+	}
+
+	@PostMapping("/search")
+	public ResponseEntity<Page<BookResponse>> searchBooks(@RequestBody BookFilterRequest filterRequest) {
+		return ResponseEntity.ok(bookService.searchBooks(filterRequest));
 	}
 }

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.booklovers.book_lovers_project.request.BookFilterRequest;
 import com.booklovers.book_lovers_project.request.BookRequest;
 import com.booklovers.book_lovers_project.response.BookResponse;
 
@@ -19,4 +20,7 @@ public interface BookService {
 	String updateCover(Integer id, MultipartFile file);
 
 	Page<BookResponse> getAll(String search, Pageable pageable);
+
+	Page<BookResponse> searchBooks(BookFilterRequest filterRequest);
+
 }

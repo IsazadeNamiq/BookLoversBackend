@@ -15,4 +15,14 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 			Pageable pageable);
 
 	long countByCategory_Id(Integer categoryId);
+
+	Page<BookEntity> findByTitleContainingIgnoreCase(String title);
+
+	Page<BookEntity> findByAuthorContainingIgnoreCase(String author);
+
+	Page<BookEntity> findByCategory_Id(Integer categoryId);
+
+	Page<BookEntity> findByPriceBetween(Double minPrice, Double maxPrice);
+
+	Page<BookEntity> findByAvailableCopiesGreaterThan(Integer copies);
 }

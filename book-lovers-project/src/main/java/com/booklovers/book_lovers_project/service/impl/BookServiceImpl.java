@@ -1,5 +1,8 @@
 package com.booklovers.book_lovers_project.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.booklovers.book_lovers_project.entity.BookEntity;
 import com.booklovers.book_lovers_project.exception.ResourceNotFoundException;
 import com.booklovers.book_lovers_project.repository.BookRepository;
+import com.booklovers.book_lovers_project.request.BookFilterRequest;
 import com.booklovers.book_lovers_project.request.BookRequest;
 import com.booklovers.book_lovers_project.response.BookResponse;
 import com.booklovers.book_lovers_project.service.BookService;
@@ -96,6 +100,50 @@ public class BookServiceImpl implements BookService {
 		}
 
 		return newPath;
+	}
+
+	@Override
+	public Page<BookResponse> searchBooks(BookFilterRequest filterRequest) {
+		List<BookEntity> books = bookRepository.findAll();
+		List<BookEntity> filteredBooks = new ArrayList<>(books);
+
+		if (filterRequest.getKeyword() != null && !filterRequest.getKeyword().isBlank()) {
+			filteredBooks = filteredBooks.stream().filter(book -> (book.getTitle() != null
+					&& book.getTitle().toLowerCase().contains(filterRequest.getKeyword().toLowerCase()))
+					|| (book.getAuthor() != null
+							&& book.getAuthor().toLowerCase().contains(filterRequest.getKeyword().toLowerCase())))
+					.toList();
+		}
+
+		if (filterRequest.getAuthor() != null && !filterRequest.getAuthor().isBlank()) {
+			filteredBooks = filteredBooks.stream()
+					.filter(book -> book.getAuthor() != null
+							&& book.getAuthor().toLowerCase().contains(filterRequest.getAuthor().toLowerCase()))
+					.toList();
+		}
+
+		if (filterRequest.getCategoryId() != null) {
+			filteredBooks = filteredBooks.stream().filter(book -> book.getCategory() != null
+					&& book.getCategory().getId().equals(filterRequest.getCategoryId())).toList();
+		}
+
+		if (filterRequest.getMinPrice() != null) {
+			filteredBooks = filteredBooks.stream()
+					.filter(book -> book.getPrice() != null && book.getPrice() >= filterRequest.getMinPrice()).toList();
+		}
+
+		if (filterRequest.getMaxPrice() != null) {
+			filteredBooks = filteredBooks.stream()
+					.filter(book -> book.getPrice() != null && book.getPrice() <= filterRequest.getMaxPrice()).toList();
+		}
+
+		if (Boolean.TRUE.equals(filterRequest.getAvailableOnly())) {
+			filteredBooks = filteredBooks.stream()
+					.filter(book -> book.getAvailableCopies() != null && book.getAvailableCopies() > 0).toList();
+		}
+
+		return (Page<BookResponse>) filteredBooks.stream().map(book -> modelMapper.map(book, BookResponse.class))
+				.toList();
 	}
 
 }

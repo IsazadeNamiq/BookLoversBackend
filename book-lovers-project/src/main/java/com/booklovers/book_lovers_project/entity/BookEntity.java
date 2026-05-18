@@ -13,9 +13,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import com.booklovers.book_lovers_project.entity.CategoryEntity;
 
 @Entity
 @Table(name = "books")
@@ -124,5 +121,9 @@ public class BookEntity {
 
 	public void setAvailableCopies(Integer availableCopies) {
 		this.availableCopies = availableCopies;
+	}
+
+	public BookEntity getCategory() {
+		return this.getCategory();
 	}
 }
