@@ -14,4 +14,6 @@ public interface FavoriteRepository extends JpaRepository<FavoriteEntity, Intege
 	List<FavoriteEntity> findByUser_UsernameOrderByCreatedAtDesc(String username);
 
 	long countByBook_Id(Integer bookId);
+
+	List<FavoriteEntity> findTop5ByOrderByCreatedAtDesc();
 }

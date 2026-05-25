@@ -12,4 +12,7 @@ public interface LoanRepository extends JpaRepository<LoanEntity, Integer> {
 	List<LoanEntity> findByUser_UsernameOrderByBorrowedAtDesc(String username);
 
 	Optional<LoanEntity> findByBook_IdAndUser_UsernameAndReturnedAtIsNull(Integer bookId, String username);
+
+	long countByStatus(com.booklovers.book_lovers_project.entity.LoanStatus status);
+
 }

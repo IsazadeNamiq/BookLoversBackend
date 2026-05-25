@@ -21,4 +21,6 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
 	@Query("select avg(r.rating) from ReviewEntity r where r.book.id = :bookId")
 	Double getAverageRatingByBookId(@Param("bookId") Integer bookId);
+
+	List<ReviewEntity> findTop5ByOrderByRatingDesc();
 }

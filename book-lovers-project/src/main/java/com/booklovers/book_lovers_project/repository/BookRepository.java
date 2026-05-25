@@ -25,4 +25,6 @@ public interface BookRepository extends JpaRepository<BookEntity, Integer> {
 	Page<BookEntity> findByPriceBetween(Double minPrice, Double maxPrice);
 
 	Page<BookEntity> findByAvailableCopiesGreaterThan(Integer copies);
+
+	Page<BookEntity> findTop5ByOrderByIdDesc();
 }
