@@ -96,4 +96,20 @@ public class GlobalExceptionHandler {
 		body.put("status", HttpStatus.BAD_REQUEST.value());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
 	}
+
+	@ExceptionHandler(ReservationAlreadyExistsException.class)
+	public ResponseEntity<?> handleReservationAlreadyExists(ReservationAlreadyExistsException ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.BAD_REQUEST.value());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+	}
+
+	@ExceptionHandler(ReservationNotFoundException.class)
+	public ResponseEntity<?> handleReservationNotFound(ReservationNotFoundException ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.NOT_FOUND.value());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+	}
 }
