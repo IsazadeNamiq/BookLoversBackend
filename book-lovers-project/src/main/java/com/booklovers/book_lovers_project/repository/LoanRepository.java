@@ -1,11 +1,13 @@
 package com.booklovers.book_lovers_project.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.booklovers.book_lovers_project.entity.LoanEntity;
+import com.booklovers.book_lovers_project.entity.LoanStatus;
 
 public interface LoanRepository extends JpaRepository<LoanEntity, Integer> {
 
@@ -13,6 +15,7 @@ public interface LoanRepository extends JpaRepository<LoanEntity, Integer> {
 
 	Optional<LoanEntity> findByBook_IdAndUser_UsernameAndReturnedAtIsNull(Integer bookId, String username);
 
-	long countByStatus(com.booklovers.book_lovers_project.entity.LoanStatus status);
+	long countByStatus(LoanStatus status);
 
+	List<LoanEntity> findByStatusAndDueDateBetween(LoanStatus status, LocalDateTime start, LocalDateTime end);
 }

@@ -112,4 +112,12 @@ public class GlobalExceptionHandler {
 		body.put("status", HttpStatus.NOT_FOUND.value());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
 	}
+
+	@ExceptionHandler(com.booklovers.book_lovers_project.exception.ResourceNotFoundException.class)
+	public ResponseEntity<?> handleNotificationNotFound(Exception ex) {
+		Map<String, Object> body = new HashMap<>();
+		body.put("message", ex.getMessage());
+		body.put("status", HttpStatus.NOT_FOUND.value());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+	}
 }
